@@ -18,12 +18,18 @@
       modules = {networking.hostName = hostname;} // args.modules or {};
       specialArgs = {inherit inputs self;} // args.specialArgs or {};
     };
+
+  sharedModules = [
+    inputs.agenix.nixosModules.default
+  ];
 in {
   "caesar" = mkNixosSystem {
     hostname = "caesar";
     system = "x86_64-linux";
-    modules = [
-      ./caesar
-    ];
+    modules =
+      [
+        ./caesar
+      ]
+      ++ sharedModules;
   };
 }
