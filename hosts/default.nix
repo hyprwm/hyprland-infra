@@ -23,12 +23,13 @@
     inputs.agenix.nixosModules.default
   ];
 in {
-  "caesar" = mkNixosSystem {
+  caesar = mkNixosSystem {
     hostname = "caesar";
     system = "x86_64-linux";
     modules =
       [
         ./caesar
+        ../modules/nix-daemon.nix
       ]
       ++ sharedModules;
   };
