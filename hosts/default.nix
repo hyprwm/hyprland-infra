@@ -15,7 +15,7 @@
   } @ args:
     mkSystem {
       inherit system;
-      modules = {networking.hostName = hostname;} // args.modules or {};
+      modules = [{networking.hostName = hostname;}] ++ args.modules or [];
       specialArgs = {inherit inputs self;} // args.specialArgs or {};
     };
 
