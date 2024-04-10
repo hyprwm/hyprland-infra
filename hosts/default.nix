@@ -30,6 +30,7 @@ in {
       [
         ./caesar
         ../modules/nix-daemon.nix
+        ../modules/openssh.nix
       ]
       ++ sharedModules;
   };
