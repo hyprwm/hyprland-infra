@@ -1,17 +1,16 @@
 {
   config,
-  lib,
   pkgs,
-  modulesPath,
+  lib,
   ...
-}: {
-  imports = [
-    (modulesPath + "/virtualisation/qemu-vm.nix")
-  ];
-
+}: let
+  inherit (lib.modules) mkForce;
+  inherit (lib.meta) getExe;
+in {
+  imports = [./virt.nix];
   config = {
-    zramSwap.enable = lib.mkForce false;
-    services.thermald.enable = lib.mkForce false;
+    zramSwap.enable = mkForce false;
+    services.thermald.enable = mkForce false;
 
     boot = {
       initrd.supportedFilesystems = ["ext4"];
@@ -23,29 +22,8 @@
       enable = true;
       enableCompletion = true;
       promptInit = ''
-        eval "$(${lib.getExe pkgs.starship} init zsh)"
+        eval "$(${getExe pkgs.starship} init zsh)"
       '';
-    };
-
-    virtualisation = {
-      memorySize = 8000;
-      diskSize = 200000;
-      cores = 8;
-
-      # fs
-      useDefaultFilesystems = false;
-      rootDevice = "/dev/disk/by-label/NIXOS_ROOT";
-
-      fileSystems = {
-        "/" = {
-          device = "${config.virtualisation.rootDevice}";
-          fsType = "xfs";
-        };
-      };
-
-      interfaces = {
-        vm0.vlan = 1;
-      };
     };
 
     boot.initrd.preLVMCommands = with pkgs; ''
