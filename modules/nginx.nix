@@ -5,4 +5,6 @@
     forceSSL = true;
     enableACME = true;
   };
+
+  networking.firewall.allowedTCPPorts = [80 443];
 }
