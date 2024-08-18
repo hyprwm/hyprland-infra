@@ -1,2 +1,3 @@
 # Ignore VM disks
 *.qemu
+*.qcow2
