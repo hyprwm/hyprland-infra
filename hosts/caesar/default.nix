@@ -50,11 +50,11 @@
 
     boot.initrd.preLVMCommands = with pkgs; ''
       if ! test -b /dev/vda2; then
-          ${pkgs.parted}/bin/parted --script /dev/vda -- mklabel msdos
-          ${pkgs.parted}/bin/parted --script /dev/vda -- mkpart primary 1MiB -250MiB
-          ${pkgs.parted}/bin/parted --script /dev/vda -- mkpart primary -250MiB 100%
-          sync
-        fi
+        ${pkgs.parted}/bin/parted --script /dev/vda -- mklabel msdos
+        ${pkgs.parted}/bin/parted --script /dev/vda -- mkpart primary 1MiB -250MiB
+        ${pkgs.parted}/bin/parted --script /dev/vda -- mkpart primary -250MiB 100%
+        sync
+      fi
 
       FSTYPE=$(blkid -o value -s TYPE /dev/vda2 || true)
       if test -z "$FSTYPE"; then
