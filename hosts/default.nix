@@ -38,9 +38,11 @@ in {
           ./caesar
           ../modules/nix-daemon.nix
           ../modules/openssh.nix
+          ../modules/firewall.nix
+          ../modules/nginx.nix
         ]
 
-        [sharedModules]
+        sharedModules
       ];
     };
   };
