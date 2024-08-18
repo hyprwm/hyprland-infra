@@ -1,7 +1,7 @@
 {config, ...}: let
   # Assume first port in the list is the default port. This makes sense only if openssh
   # is bound to a single port. This is, ultimately, non-deterministic.
-  sshPort = builtins.elemAt config.services.openssh.ports 0;
+  sshPort = toString (builtins.elemAt config.services.openssh.ports 0);
 in {
   networking = {
     firewall.enable = true; # defaults to true, but enable anyway
