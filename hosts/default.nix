@@ -14,8 +14,14 @@
     ...
   } @ args:
     mkSystem {
-      inherit system;
-      modules = [{networking.hostName = hostname;}] ++ args.modules or [];
+      modules =
+        [
+          {
+            networking.hostName = hostname;
+            nixpkgs.hostPlatform = system;
+          }
+        ]
+        ++ args.modules or [];
       specialArgs = {inherit inputs self;} // args.specialArgs or {};
     };
 
@@ -23,15 +29,19 @@
     inputs.agenix.nixosModules.default
   ];
 in {
-  caesar = mkNixosSystem {
-    hostname = "caesar";
-    system = "x86_64-linux";
-    modules =
-      [
-        ./caesar
-        ../modules/nix-daemon.nix
-        ../modules/openssh.nix
-      ]
-      ++ sharedModules;
+  flake.nixosConfigurations = {
+    caesar = mkNixosSystem {
+      hostname = "caesar";
+      system = "x86_64-linux";
+      modules = builtins.concatLists [
+        [
+          ./caesar
+          ../modules/nix-daemon.nix
+          ../modules/openssh.nix
+        ]
+
+        [sharedModules]
+      ];
+    };
   };
 }
