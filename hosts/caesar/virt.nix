@@ -25,10 +25,11 @@
       vm0.vlan = 1;
     };
 
+    # mac addr can be anything, especially the last 3 bytes
+    # the OUI is specific to QEMU
     qemu.networkingOptions = [
-      "-net nic,netdev=user.0,model=virtio"
-      "-netdev user,id=user.0,\${QEMU_NET_OPTS:+,$QEMU_NET_OPTS}"
-      "hostfwd=tcp::2222-:2222"
+      "-device virtio-net-pci,netdev=user0,mac=52:54:00:00:00:00"
+      "-netdev bridge,id=user0,br=br0"
     ];
   };
 }

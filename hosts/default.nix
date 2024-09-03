@@ -27,6 +27,7 @@
 
   sharedModules = [
     inputs.agenix.nixosModules.default
+    ../modules/users.nix
   ];
 in {
   flake.nixosConfigurations = {
