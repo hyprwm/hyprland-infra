@@ -14,8 +14,13 @@ in {
 
     boot = {
       initrd.supportedFilesystems = ["ext4"];
-
       kernelPackages = lib.mkOverride 0 pkgs.linuxPackages_latest;
+
+      loader.grub = {
+        efiSupport = true;
+        efiInstallAsRemovable = true;
+        device = "nodev";
+      };
     };
 
     programs.zsh = {
